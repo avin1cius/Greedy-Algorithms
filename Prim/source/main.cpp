@@ -18,7 +18,7 @@ void OutputMatrix( const std::vector< std::vector<int> > &adj_matrix, int num_el
     std::cout << "Verificar resultado em output.txt" << std::endl;
 }
 
-void PrintMST( const std::vector<int> &parents, const std::vector< std::vector<int> > &adj_matrix, std::ofstream &ofs )
+void OutputMST( const std::vector<int> &parents, const std::vector< std::vector<int> > &adj_matrix, std::ofstream &ofs )
 {
     int sum = 0;
     for ( int i = 0; i < (int)parents.size(); i++ )
@@ -29,14 +29,21 @@ void PrintMST( const std::vector<int> &parents, const std::vector< std::vector<i
     ofs << std::endl << "Total Weight: " << sum << std::endl;
 }
 
-int main()
+int main( int argc, char *argv[ ] )
 {
-    std::string filename = "../Instances/dij10.txt";
+    std::string filename;
+
+    if ( argc == 1 )
+    {
+        filename = "../Test instances/test.txt";
+    }
+    else
+    {
+        filename = argv[1];
+    }
+    
     std::vector< std::vector<int> > adj_matrix;
     int num_elements;
-
-    //std::cout << "Digite o nome do arquivo: ";
-    //std::cin >> filename;
 
     std::ifstream ifs( filename );
     {
@@ -74,7 +81,7 @@ int main()
 
         OutputMatrix( adj_matrix, num_elements, ofs );
 
-        PrintMST( parents, adj_matrix, ofs );
+        OutputMST( parents, adj_matrix, ofs );
 
         ofs.close();
     }

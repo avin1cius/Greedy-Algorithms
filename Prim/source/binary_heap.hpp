@@ -18,7 +18,7 @@ class MinHeap
     std::vector<Elements> &elements_;
 public:
     MinHeap();
-    MinHeap( int, std::vector<Elements> & ); 
+    MinHeap( const int, std::vector<Elements> & ); 
 
     void Heapify( int );    
     void BuildHeap();   

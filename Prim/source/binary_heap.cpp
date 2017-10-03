@@ -1,6 +1,6 @@
 #include "binary_heap.hpp"
 
-MinHeap::MinHeap( int capacity, std::vector<Elements> &elements ) : 
+MinHeap::MinHeap( const int capacity, std::vector<Elements> &elements ) : 
     capacity_{ capacity }, elements_{ elements } 
     {
         BuildHeap();
@@ -29,7 +29,7 @@ void MinHeap::BuildHeap()
 
     if ( size_ <= 1 ) return;
 
-    for ( int i = (size_ -2)/2; i >= 0; i-- )
+    for ( int i = ( size_ - 2 )/2; i >= 0; i-- )
     {
         Heapify( i );
     }
@@ -50,8 +50,8 @@ Elements MinHeap::ExtractMin()
     }
 
     Elements min = elements_[0];
-    std::swap( elements_[0], elements_[size_ - 1] );
-    //elements_[0] = elements_[size_ - 1];
+    elements_[0] = elements_[size_ - 1];
+    //std::swap( elements_[0], elements_[size_ - 1] );
     size_--;
     Heapify( 0 );
 
@@ -60,6 +60,7 @@ Elements MinHeap::ExtractMin()
 
 void MinHeap::Decrease( int index, int key )
 {
+
     if ( key >= elements_[index].key_ )
     {
         std::cout << "Nothing to do" << std::endl;
