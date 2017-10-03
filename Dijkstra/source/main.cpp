@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "prim.hpp"
+#include "dijkstra.hpp"
 
 void OutputMatrix( const std::vector< std::vector<int> > &adj_matrix, int num_elements, std::ofstream &ofs )
 {
@@ -18,15 +18,24 @@ void OutputMatrix( const std::vector< std::vector<int> > &adj_matrix, int num_el
     std::cout << "Verificar resultado em output.txt" << std::endl;
 }
 
-void OutputMST( const std::vector<int> &parents, const std::vector< std::vector<int> > &adj_matrix, std::ofstream &ofs )
+void OutputShortestPath( const std::vector<int> &parents, const std::vector< std::vector<int> > &adj_matrix, std::ofstream &ofs )
 {
     int sum = 0;
-    for ( int i = 0; i < (int)parents.size(); i++ )
+    int distance = 0;
+    int size = parents.size();
+    ofs << "Initial vertex = 0" << std::endl;
+    for ( int i = 1; i < size; i++ )
     {
-        ofs << "Vertex: " << i << " Parent: " << parents[i] << " Weight: " << adj_matrix[i][parents[i]] << std::endl;
+        for ( int j = i; j != 0; )
+        {
+            distance += distance + adj_matrix[j][parents[j]];
+            j = parents[j];
+        }
+        ofs << "Distance to " << i << ": " << distance << std::endl;
+        distance = 0;
         sum += adj_matrix[i][parents[i]];
     }
-    ofs << std::endl << "Total Weight: " << sum << std::endl;
+    ofs << std::endl << "Total distance: " << sum << std::endl;
 }
 
 int main( int argc, char *argv[ ] )
@@ -69,7 +78,8 @@ int main( int argc, char *argv[ ] )
         }
     }
 
-    std::vector<int> parents( Prim( adj_matrix ) );
+    std::vector<Elements> elements( num_elements );
+    std::vector<int> parents( Dijkstra( adj_matrix, elements ) );
 
     std::ofstream ofs( "output.txt" );
     {
@@ -81,7 +91,7 @@ int main( int argc, char *argv[ ] )
 
         OutputMatrix( adj_matrix, num_elements, ofs );
 
-        OutputMST( parents, adj_matrix, ofs );
+        OutputShortestPath( parents, adj_matrix, ofs );
 
         ofs.close();
     }
