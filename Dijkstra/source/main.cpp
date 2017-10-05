@@ -11,7 +11,7 @@ void OutputMatrix( const std::vector< std::vector<int> > &adj_matrix, int num_el
         {
             ofs << adj_matrix[i][j] << " ";
         }  
-        ofs << std::endl;          
+        ofs << "\n";          
     }
     ofs << std::endl;
 
@@ -20,22 +20,26 @@ void OutputMatrix( const std::vector< std::vector<int> > &adj_matrix, int num_el
 
 void OutputShortestPath( const std::vector<int> &parents, const std::vector< std::vector<int> > &adj_matrix, std::ofstream &ofs )
 {
+    const int size = parents.size();
     int sum = 0;
     int distance = 0;
-    int size = parents.size();
-    ofs << "Initial vertex = 0" << std::endl;
+
+    ofs << "Initial vertex = 0\n";
+    ofs << "\nPaths to initial vertex\n\n";
     for ( int i = 1; i < size; i++ )
     {
+        ofs << i;
         for ( int j = i; j != 0; )
         {
-            distance += distance + adj_matrix[j][parents[j]];
+            ofs << " > " << parents[j];
+            distance += adj_matrix[j][parents[j]];
             j = parents[j];
         }
-        ofs << "Distance to " << i << ": " << distance << std::endl;
+        ofs << "\n\tDistance: " << distance << "\n";
+        sum += distance;
         distance = 0;
-        sum += adj_matrix[i][parents[i]];
     }
-    ofs << std::endl << "Total distance: " << sum << std::endl;
+    ofs << std::flush;
 }
 
 int main( int argc, char *argv[ ] )
@@ -89,7 +93,9 @@ int main( int argc, char *argv[ ] )
           return 0;
         }
 
-        OutputMatrix( adj_matrix, num_elements, ofs );
+        ofs << filename << "\n\n";
+
+        //OutputMatrix( adj_matrix, num_elements, ofs );
 
         OutputShortestPath( parents, adj_matrix, ofs );
 

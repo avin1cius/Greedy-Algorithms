@@ -8,7 +8,7 @@
 struct Elements
 {
     int index_;
-    int key_;    
+    int key_;
 };
 
 class MinHeap

@@ -21,7 +21,8 @@ void OutputMatrix( const std::vector< std::vector<int> > &adj_matrix, int num_el
 void OutputMST( const std::vector<int> &parents, const std::vector< std::vector<int> > &adj_matrix, std::ofstream &ofs )
 {
     int sum = 0;
-    for ( int i = 0; i < (int)parents.size(); i++ )
+    ofs << "Root vertex: " << 0 << "\n\n";
+    for ( int i = 1; i < (int)parents.size(); i++ )
     {
         ofs << "Vertex: " << i << " Parent: " << parents[i] << " Weight: " << adj_matrix[i][parents[i]] << std::endl;
         sum += adj_matrix[i][parents[i]];
@@ -79,7 +80,9 @@ int main( int argc, char *argv[ ] )
           return 0;
         }
 
-        OutputMatrix( adj_matrix, num_elements, ofs );
+        ofs << filename << "\n\n";
+
+        //OutputMatrix( adj_matrix, num_elements, ofs );
 
         OutputMST( parents, adj_matrix, ofs );
 
